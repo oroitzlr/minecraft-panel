@@ -54,6 +54,7 @@ func main() {
 	// 3. Handlers
 	authHandler := auth.NewHandler(authService)
 	serverHandler := handlers.NewServerHandler(mcServer)
+	wsHandler := handlers.NewWSHandler(mcServer)
 
 	// 4. Gin + CORS
 	r := gin.Default()
@@ -91,6 +92,7 @@ func main() {
 		api.POST("/server/stop", auth.AdminOnly(), serverHandler.Stop)
 		api.GET("/server/players", serverHandler.Players)
 		api.POST("/server/command", auth.AdminOnly(), serverHandler.SendCommand)
+		api.GET("/ws/console", wsHandler.Console)
 	}
 
 	// 7. Lancer
