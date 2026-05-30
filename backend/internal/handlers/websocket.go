@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -53,8 +54,20 @@ func (h *WSHandler) Console(c *gin.Context) {
 	go func() {
 		scanner := bufio.NewScanner(resp.Body)
 		for scanner.Scan() {
-			if err := conn.WriteMessage(websocket.TextMessage, []byte(scanner.Text())); err != nil {
-				break
+			line := scanner.Text()
+			// Parser le format SSE "data:contenu"
+			if strings.HasPrefix(line, "data:") {
+				content := strings.TrimPrefix(line, "data:")
+				content = strings.TrimSpace(content)
+				// Filtrer les logs RCON parasites
+				if strings.Contains(content, "RCON Client") {
+					continue
+				}
+				if content != "" {
+					if err := conn.WriteMessage(websocket.TextMessage, []byte(content)); err != nil {
+						break
+					}
+				}
 			}
 		}
 	}()
