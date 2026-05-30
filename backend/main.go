@@ -10,9 +10,13 @@ import (
 	"github.com/oroitz-lago-ramos/minecraft-panel/internal/auth"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Charger les variables d'environnement
+	godotenv.Load()
+	
 	// 1. Connexion MongoDB
 	mongoURI := os.Getenv("MONGO_URI")
 	if mongoURI == "" {
