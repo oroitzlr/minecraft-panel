@@ -12,9 +12,10 @@ import (
 )
 
 var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return true // À restreindre en prod
-	},
+    CheckOrigin: func(r *http.Request) bool {
+        origin := r.Header.Get("Origin")
+        return origin == "https://mc.oroitzlagoramos.com"
+    },
 }
 
 type WSHandler struct {

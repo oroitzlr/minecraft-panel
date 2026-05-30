@@ -16,6 +16,7 @@ import (
 )
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	// Charger les variables d'environnement
 	godotenv.Load()
 
@@ -59,7 +60,7 @@ func main() {
 	// 4. Gin + CORS
 	r := gin.Default()
 	r.Use(func(c *gin.Context) {
-		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Origin", "https://mc.oroitzlagoramos.com")
 		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		if c.Request.Method == "OPTIONS" {
