@@ -53,7 +53,7 @@ export function Console() {
             </div>
 
             <div id="console" ref={consoleRef}>
-                {messages.map((msg, i) => (
+                {messages.map((msg: string, i: number) => (
                     <div key={i} className="cl-line" data-level={getLevel(msg)}>
                         <span className="cl-msg">{msg}</span>
                     </div>
