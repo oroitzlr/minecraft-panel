@@ -22,6 +22,8 @@ jobs:
           context: ./frontend
           push: true
           tags: oroitzlr/mc-frontend:latest
+          build-args: |
+            VITE_API_URL=https://mc-api.oroitzlagoramos.com
 
       - name: Build & Push backend
         uses: docker/build-push-action@v5
