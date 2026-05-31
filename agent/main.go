@@ -219,9 +219,14 @@ func main() {
 		if active != "" && active != body.Name {
 			saveDir := filepath.Join(baseDir, active)
 			os.MkdirAll(saveDir, 0755)
-			os.Rename(filepath.Join(mcDir, "world"), filepath.Join(saveDir, "world"))
-			os.Rename(filepath.Join(mcDir, "world_nether"), filepath.Join(saveDir, "world_nether"))
-			os.Rename(filepath.Join(mcDir, "world_the_end"), filepath.Join(saveDir, "world_the_end"))
+			// Remplace os.Rename par cp + rm
+			for _, dir := range []string{"world", "world_nether", "world_the_end"} {
+				src := filepath.Join(mcDir, dir)
+				dst := filepath.Join(saveDir, dir)
+				os.RemoveAll(dst)
+				exec.Command("cp", "-r", src, dst).Run()
+				os.RemoveAll(src)
+			}
 		}
 
 		// 3. Copie la nouvelle map
