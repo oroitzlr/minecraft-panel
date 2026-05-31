@@ -5,6 +5,8 @@ import { StatsBar } from './components/StatsBar'
 import { PlayerList } from './components/PlayerList'
 import { Console } from './components/Console'
 import type { ServerStatus, Player, SystemStats, Uptime } from './types'
+import { WorldManager } from './components/WorldManager'
+
 
 export default function App() {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'))
@@ -115,7 +117,7 @@ export default function App() {
 
       <ServerCard status={status} loading={loading} onRefresh={fetchAll} uptime={uptime} />
       <StatsBar stats={stats} />
-
+      <WorldManager onSwitch={fetchAll} />
       <section className="main">
         <PlayerList players={players} />
         <Console />

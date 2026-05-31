@@ -1,4 +1,4 @@
-import type { ServerStatus, Player, SystemStats, Uptime } from '../types'
+import type { ServerStatus, Player, SystemStats, Uptime, World } from '../types'
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080'
 
@@ -67,4 +67,30 @@ export const sendCommand = async (command: string): Promise<string> => {
   if (!res.ok) throw new Error('Erreur commande')
   const data = await res.json()
   return data.response
+}
+
+export const fetchWorlds = async (): Promise<World[]> => {
+    const res = await fetch(`${BASE_URL}/api/server/worlds`, { headers: authHeaders() })
+    if (!res.ok) throw new Error('Erreur worlds')
+    return res.json()
+}
+
+export const switchWorld = async (name: string): Promise<void> => {
+    const res = await fetch(`${BASE_URL}/api/server/worlds/switch`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({ name }),
+    })
+    if (!res.ok) throw new Error('Erreur switch')
+}
+
+export const uploadWorld = async (file: File): Promise<void> => {
+    const form = new FormData()
+    form.append('world', file)
+    const res = await fetch(`${BASE_URL}/api/server/worlds/upload`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${localStorage.getItem('token') ?? ''}` },
+        body: form,
+    })
+    if (!res.ok) throw new Error('Erreur upload')
 }

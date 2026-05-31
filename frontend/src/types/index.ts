@@ -28,3 +28,8 @@ export interface ConsoleMessage {
   level: 'INFO' | 'WARN' | 'ERROR'
   content: string
 }
+
+export interface World {
+    name: string
+    active: boolean
+}
