@@ -223,7 +223,7 @@ func main() {
 
 		// 1. Stop le serveur Minecraft
 		exec.Command("systemctl", "stop", "minecraft").Run()
-		time.Sleep(3 * time.Second)
+		time.Sleep(8 * time.Second)
 
 		// 2. Sauvegarde le world actif dans worlds/<active>/world/
 		active := getActiveWorld()
