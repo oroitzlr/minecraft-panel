@@ -100,6 +100,11 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -p ${{ env.VPS_PORT }} ${{ env.VPS_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Stop mc-agent before SCP
+        run: |
+          ssh -p ${{ env.VPS_PORT }} -i ~/.ssh/id_ed25519 ${{ env.VPS_USER }}@${{ env.VPS_HOST }} \
+            "sudo systemctl stop mc-agent"
+
       - name: SCP mc-agent
         run: |
           scp -P ${{ env.VPS_PORT }} -i ~/.ssh/id_ed25519 ./mc-agent ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:/home/deploy/minecraft/agent/mc-agent
