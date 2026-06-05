@@ -222,7 +222,7 @@ func main() {
 		}
 
 		// 1. Stop le serveur Minecraft
-		exec.Command("systemctl", "stop", "minecraft").Run()
+		exec.Command("sudo", "systemctl", "stop", "minecraft").Run()
 		time.Sleep(8 * time.Second)
 
 		// 2. Sauvegarde le world actif dans worlds/<active>/world/
@@ -248,7 +248,7 @@ func main() {
 			// La map n'a pas encore de dossier world/ → le serveur en créera un nouveau
 			c.JSON(200, gin.H{"status": "switched (nouveau world)", "world": body.Name})
 			setActiveWorld(body.Name)
-			exec.Command("systemctl", "start", "minecraft").Run()
+			exec.Command("sudo", "systemctl", "start", "minecraft").Run()
 			return
 		}
 		if err := copyWorld(src, activeWorldDir); err != nil {
@@ -260,7 +260,7 @@ func main() {
 		setActiveWorld(body.Name)
 
 		// 6. Restart le serveur
-		exec.Command("systemctl", "start", "minecraft").Run()
+		exec.Command("sudo", "systemctl", "start", "minecraft").Run()
 
 		c.JSON(200, gin.H{"status": "switched", "world": body.Name})
 	})
