@@ -106,15 +106,24 @@ jobs:
 
       - name: SSH → deploy
         run: |
-          ssh -p ${{ env.VPS_PORT }} -i ~/.ssh/id_ed25519 ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'EOF'
-            chmod +x /home/deploy/minecraft/agent/mc-agent
+          ssh -p ${{ env.VPS_PORT }} -i ~/.ssh/id_ed25519 ${{ env.VPS_USER }}@${{ env.VPS_HOST }} bash << 'SSHEOF'
+            PANEL=$(curl -s -H "X-Vault-Token: $(cat ~/.vault-token)" http://10.0.0.1:8200/v1/secret/data/mc-panel | jq -r '.data.data')
 
-            cd ~/mc-panel
-            docker compose up -d
+            MONGO_ROOT_PASSWORD=$(echo $PANEL | jq -r '.MONGO_ROOT_PASSWORD')
+            JWT_SECRET=$(echo $PANEL | jq -r '.JWT_SECRET')
+            RCON_PASSWORD=$(echo $PANEL | jq -r '.RCON_PASSWORD')
 
+            printf "MONGO_ROOT_PASSWORD=%s\nJWT_SECRET=%s\nRCON_PASSWORD=%s\n" \
+              "$MONGO_ROOT_PASSWORD" "$JWT_SECRET" "$RCON_PASSWORD" > ~/mc-panel/.env
+
+            chmod +x ~/minecraft/agent/mc-agent
             sudo systemctl restart mc-agent
             sleep 2
+
+            cd ~/mc-panel
+            docker compose pull
+            docker compose up -d
             docker compose up -d --force-recreate backend
 
             echo "Deploy OK — agent: $(sudo systemctl is-active mc-agent)"
-          EOF
+          SSHEOF
