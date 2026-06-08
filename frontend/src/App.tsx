@@ -66,7 +66,7 @@ export default function App() {
   if (!token) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-        <div className="panel" style={{ padding: '32px', minWidth: '320px' }}>
+        <div className="panel" style={{ padding: '32px', width: 'min(360px, calc(100vw - 32px))' }}>
           <h1 className="px" style={{ fontSize: '14px', marginBottom: '24px', textAlign: 'center' }}>
             Minecraft Panel
           </h1>

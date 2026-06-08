@@ -133,3 +133,50 @@
   .send:hover{ filter:brightness(1.12); }
 
   .foot{ text-align:center; font-size:16px; color:var(--sub2); margin-top:20px; }
+
+  /* ── Responsive ─────────────────────────────────────────────────────── */
+
+  /* Tablet (≤900px): stats 2-col, side-by-side still possible */
+  @media(max-width:900px){
+    .stats{ grid-template-columns:repeat(2,1fr); }
+    .wrap{ padding:16px 14px 24px; }
+  }
+
+  /* Mobile (≤640px): everything stacks */
+  @media(max-width:640px){
+    .wrap{ padding:12px 10px 20px; }
+
+    /* header */
+    .header{ flex-wrap:wrap; gap:10px; }
+    .brand h1{ font-size:11px; }
+    .brand p{ font-size:14px; }
+    .logo{ height:40px; width:40px; }
+    .logo svg{ height:20px; width:20px; }
+
+    /* server card */
+    .servercard{ flex-wrap:wrap; gap:14px; padding:14px; }
+    .icon-box{ height:52px; width:52px; }
+    .icon-box canvas{ height:36px; width:36px; }
+    .ident{ min-width:0; flex:1 1 calc(100% - 66px); }
+    #uptime{ font-size:26px; }
+    .players-mid{ padding:0 10px; }
+    #playerCount{ font-size:34px; }
+    .actions{ flex-direction:row; width:100%; }
+    .actions .mc-btn{ flex:1; text-align:center; font-size:18px; }
+
+    /* stats */
+    .stats{ grid-template-columns:1fr; }
+
+    /* main layout: player list above console */
+    .main{ grid-template-columns:1fr; }
+    #playerList{ max-height:260px; }
+
+    /* console */
+    #console{ height:300px; font-size:12px; }
+    .console-head{ flex-wrap:wrap; gap:8px; }
+    .opts{ flex-wrap:wrap; gap:8px; font-size:14px; }
+
+    /* world manager */
+    .world-row{ flex-wrap:wrap; gap:8px; }
+    .world-row .world-actions{ flex-wrap:wrap; }
+  }

@@ -130,7 +130,7 @@ export function WorldManager({ onSwitch }: Props) {
             ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {worlds.map(world => (
-                        <div key={world.name} style={{
+                        <div key={world.name} className="world-row" style={{
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
@@ -152,7 +152,7 @@ export function WorldManager({ onSwitch }: Props) {
                                     </span>
                                 )}
                             </div>
-                            <div style={{ display: 'flex', gap: '6px' }}>
+                            <div className="world-actions" style={{ display: 'flex', gap: '6px' }}>
                                 {!world.active && (
                                     <button
                                         className="mc-btn btn-start"
